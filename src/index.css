@@ -6,6 +6,7 @@ body{
   width: 100%;
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
+  background-color: rgb(212, 212, 212);
 }
 #root{
   display:flex;
@@ -13,4 +14,7 @@ body{
   align-items:center;
   width: 100%;
   min-height: 100vh;
+}
+a{
+  text-decoration: none;
 }
