@@ -1,17 +1,19 @@
-.main_header{
+.main_header {
+    margin-top: 20px;
     width: 100%;
-    padding-left: 45%;
+    padding-left: 5%;
     padding-right: 5%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
-.main_button-add{
+
+.main_button-add {
     cursor: pointer;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 4px solid greenyellow;
     border-radius: 12px;
     font-size: 2.5rem;
@@ -19,27 +21,49 @@
     color: white;
     transition: linear .2s all;
 }
-.main_button-add:hover{
+
+.main_button-add:hover {
     transform: scale(1.1);
 }
-.main_table-wrapper{
+
+.main_table-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 90%;
 }
-.main_table{
+
+.main_table {
     width: 100%;
     margin-top: 20px;
 }
-.green{
+.main_table_history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.green {
     color: rgb(44, 146, 0);
     background-color: rgb(134, 255, 83);
     padding: 5px;
     border-radius: 12px;
     text-transform: uppercase;
 }
-.client{
+.redcard {
+    color: rgb(166, 0, 0);
+    background-color: rgb(255, 147, 147);
+    padding: 5px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.client {
     width: 100%;
     border-radius: 40px;
     background-color: white;
@@ -48,24 +72,34 @@
     flex-direction: column;
     align-items: center;
 }
-.client_header{
+
+.client_header {
     width: 90%;
     margin-top: 20px;
 }
-.client_header h2{
+
+.client_header h2 {
     font-size: 2rem;
     text-transform: uppercase;
 }
-.client_header h3{
+
+.client_header h3 {
     color: rgb(85, 85, 85);
 }
-.form{
+
+.form {
     width: 90%;
 }
-.form .nextui-input-main-container{
+
+.form .nextui-input-main-container {
     margin-top: 20px;
 }
-.buttons_block{
+
+.main_title {
+    flex-basis: 30%;
+}
+
+.buttons_block {
     margin-top: 40px;
     width: 90%;
     display: flex;
@@ -74,11 +108,13 @@
     align-items: center;
     font-size: 3rem;
 }
-.back_block{
+
+.back_block {
     width: 90%;
     margin-bottom: 20px;
 }
-.back_block a{
+
+.back_block a {
     display: block;
     width: 90px;
     height: 100%;
@@ -94,15 +130,141 @@
     border-radius: 12px;
     transition: linear .2s all;
 }
-.back_block a:hover{
+
+.back_block a:hover {
     transform: scale(1.1);
 }
 
 /* Single CLient */
-.single_client{
+.single_client {
     width: 100%;
     min-height: 70vh;
     padding: 20px 20px;
     background-color: white;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.single_client h1 {
+    font-size: 3rem;
+}
+
+.single_client-container {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.single_client-item {
+    flex-basis: 45%;
+}
+
+.single_client-item h3 {
+    font-size: 1.5rem;
+}
+
+.payment_type {
+    display: flex;
+    flex-direction: row;
+    
+}
+.payment_button{
+    padding: 5px;
+    font-size: 1.3rem;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s linear all;
+}
+.payment_button:hover{
+    transform: scale(1.1);
+}
+
+.payment_button-wrapper{
+    background-color: white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding: 4px;
+}
+.payment_button-content{
+    padding: 11px;
+}
+.blue{
+    background-color: #5EA2EF;
+}
+.red{
+    background-color: red;
+}
+.payment_button:nth-child(1),.payment_button:nth-child(1) .payment_button-wrapper,.payment_button:nth-child(1) .payment_button-content{
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+}
+.payment_button:nth-child(2),.payment_button:nth-child(2) .payment_button-wrapper,.payment_button:nth-child(2) .payment_button-content{
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.payment_button:nth-child(1), .payment_button:nth-child(1) .payment_button-wrapper{
+    padding-right: 0 !important;
+}
+.payment_button:nth-child(2), .payment_button:nth-child(2) .payment_button-wrapper{
+    padding-left: 0 !important;
+}
+
+
+
+/* PAGINATION */
+.pagination_block_wrapper{
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.pagination_block{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.pagination_button{
+    cursor: pointer;
+    transition: linear .2s all;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-left: 20px;
+    border-radius: 50%;
+    border: 3px solid #5EA2EF;
+    background-color: white;
+}
+.pagination_button:hover{
+    transform: scale(1.1);
+}
+.pagination_button:last-child,.pagination_button:first-child{
+    padding: 15px;
+    border-radius: 7px;
+    background-color: #5EA2EF;
+    color: white;
+}
+.pagination_active{
+    background-color: #5EA2EF;
+    color: white;
+}
+#pagination_false{
+    border: none;
+    background-color: rgb(215, 215, 215);
+    color: rgb(77, 77, 77);
+}
+.single_client-item .nextui-input-main-container{
+    margin-top: 20px;
 }

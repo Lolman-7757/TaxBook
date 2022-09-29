@@ -17,6 +17,9 @@ import https from '../../Assets/https';
 
 function Home() {
   const [data, setData] = useState([])
+  const [errText, setErrText] = useState("NO CLIENTS REGISTERED!")
+  const [paginations, setPaginations] = useState([])
+  const [searchValue, setSearchValue] = useState('')
 
   // Alerts
   function Success(name) {
@@ -34,105 +37,169 @@ function Home() {
     })
   }
   // GET DATA
+  const getData = (pageNum, inputValue, isSearchRequest) => {
+    if (isSearchRequest) {
+      https
+        .get(`/clients?search=${inputValue}&limit=5&page=1`)
+        .then(res => {
+          setData(res.data.data);
+          setErrText("NO CLIENTS REGISTERED!");
+          setPaginations(res.data.meta.links)
+          setSearchValue(inputValue)
+        })
+        .catch(err => Warn(err.response.status))
+    } else {
+      https
+        .get(`/clients?search=${searchValue}&limit=5&page=${pageNum}`)
+        .then(res => {
+          setData(res.data.data);
+          setErrText("NO CLIENTS REGISTERED!");
+          setPaginations(res.data.meta.links)
+        })
+        .catch(err => Warn(err.response.status))
+    }
+  }
   useEffect(() => {
-    https
-      .get('/clients?search&limit=11&page=1')
-      .then(res => setData(res.data.data))
-      .catch(err => console.log(err))
+    getData('', '', true)
   }, [])
 
-  // DELETE USER
-  const deleteData = (info) => {
+  // DELETE DATA
+  const deleteData = (id) => {
     https
-      .delete(`/clients/${info.id}`)
+      .delete(`/clients/${id}`)
       .then(res => {
-        setData(data.filter(item => item.id !== info.id))
-        Success(info.name)
+        setData(data.filter(dat => dat.id !== id))
       })
-      .catch(err => Warn(err))
+      .catch(err => Warn(err.response.status))
   }
 
+  // Arrow putting Function
+  function arrowFunc(label) {
+    if (label.split('')[0] === 'N') {
+      return 'Next >'
+    } else if (label.split('')[0] === '&') {
+      return '< Previous'
+    } else {
+      return label
+    }
+  }
+
+  const returnData = () => {
+    if (data.length === 0) {
+      return (<h2 className='no-clients'>{errText}</h2>)
+    } else {
+      return (
+        <Table
+          bordered
+          shadow={false}
+          aria-label="Example static collection table"
+          css={{
+            height: "auto",
+            minWidth: "100%",
+          }}
+          selectionMode="single"
+        >
+          <Table.Header>
+            <Table.Column>ID</Table.Column>
+            <Table.Column>NAME</Table.Column>
+            <Table.Column>PHONE</Table.Column>
+            <Table.Column>ADDRESS</Table.Column>
+            <Table.Column>AMMOUNT</Table.Column>
+            <Table.Column>ACTION</Table.Column>
+          </Table.Header>
+          <Table.Body>
+            {
+              data?.map((dataItem, dataItemIndx) => {
+                return (
+                  <Table.Row key={dataItemIndx}>
+                    <Table.Cell>{dataItem.id}</Table.Cell>
+                    <Table.Cell>{dataItem.name}</Table.Cell>
+                    <Table.Cell>{dataItem.phone}</Table.Cell>
+                    <Table.Cell>{dataItem.address}</Table.Cell>
+                    <Table.Cell>{dataItem.summa}</Table.Cell>
+                    <Table.Cell>
+                      <Row justify="center" align="center">
+                        <Col css={{ d: "flex" }}>
+                          <Tooltip content="Details">
+                            <Link to={`/client/${dataItem.id}`}>
+                              <IconButton>
+                                <EyeIcon size={20} fill="#979797" />
+                              </IconButton>
+                            </Link>
+                          </Tooltip>
+                        </Col>
+                        <Col css={{ d: "flex" }}>
+                          <Tooltip
+                            content="Delete user"
+                            color="error"
+                            onClick={() => deleteData(dataItem)}
+                          >
+                            <IconButton>
+                              <DeleteIcon size={20} fill="#FF0080" />
+                            </IconButton>
+                          </Tooltip>
+                        </Col>
+                      </Row>
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              })
+            }
+          </Table.Body>
+        </Table>
+      )
+    }
+  }
   return (
     <section className='main_section'>
       <div className='main_header'>
-        <h2 className='main_title'>Home</h2>
-        <Link to='/addclient' className='main_button-add'><CgUserAdd /></Link>
-      </div>
-      <div className='main_table-wrapper'>
-        {/* <Input
+        <Input
           rounded
           bordered
           placeholder="Client Name..."
           color="primary"
-          label=' '
-          width='500px'
-          className='main_table-search'
+          label='Search'
+          width='20%'
           contentRight={<FiSearch />}
-        /> */}
+          onChange={(e) => getData('', e.target.value, true)}
+        />
+        <h2 className='main_title'>Home</h2>
+        <Link to='/addclient' className='main_button-add'><CgUserAdd /></Link>
+      </div>
+      <div className='main_table-wrapper'>
         <div className='main_table'>
-          <Table
-            bordered
-            shadow={false}
-            aria-label="Example static collection table"
-            css={{
-              height: "auto",
-              minWidth: "100%",
-            }}
-            selectionMode="single"
-          >
-            <Table.Header>
-              <Table.Column>ID</Table.Column>
-              <Table.Column>NAME</Table.Column>
-              <Table.Column>PHONE</Table.Column>
-              <Table.Column>ADDRESS</Table.Column>
-              <Table.Column>AMMOUNT</Table.Column>
-              <Table.Column>STATUS</Table.Column>
-              <Table.Column>ACTION</Table.Column>
-            </Table.Header>
-            <Table.Body>
-              {
-                data?.map((dataItem, dataItemIndx) => {
-                  return (
-                    <Table.Row key={dataItemIndx}>
-                      <Table.Cell>{dataItem.id}</Table.Cell>
-                      <Table.Cell>{dataItem.name}</Table.Cell>
-                      <Table.Cell>{dataItem.phone}</Table.Cell>
-                      <Table.Cell>{dataItem.address}</Table.Cell>
-                      <Table.Cell>{dataItem.summa}</Table.Cell>
-                      <Table.Cell><span className='green'>Accepted</span></Table.Cell>
-                      <Table.Cell>
-                        <Row justify="center" align="center">
-                          <Col css={{ d: "flex" }}>
-                            <Tooltip content="Details">
-                              <Link to={`/client/${dataItem.id}`}>
-                                <IconButton>
-                                  <EyeIcon size={20} fill="#979797" />
-                                </IconButton>
-                              </Link>
-                            </Tooltip>
-                          </Col>
-                          <Col css={{ d: "flex" }}>
-                            <Tooltip
-                              content="Delete user"
-                              color="error"
-                              onClick={() => deleteData(dataItem)}
-                            >
-                              <IconButton>
-                                <DeleteIcon size={20} fill="#FF0080" />
-                              </IconButton>
-                            </Tooltip>
-                          </Col>
-                        </Row>
-                      </Table.Cell>
-                    </Table.Row>
-                  )
-                })
-              }
-            </Table.Body>
-          </Table>
+          {returnData()}
         </div>
       </div>
-    </section>
+      <div className='pagination_block_wrapper'>
+        <div className='pagination_block'>
+          {
+            paginations?.map((pagination, paginationID) => {
+
+              return (
+                <button
+                  className={pagination.active ? 'pagination_button pagination_active' : 'pagination_button'}
+                  id={pagination?.url === null ? 'pagination_false' : ''}
+                  key={paginationID}
+                  onClick={() =>{
+                    if(pagination?.url !== null){
+                      getData(
+                        Number(pagination?.url.split('')[pagination?.url.length - 1]),
+                        searchValue,
+                        false
+                      )
+                    }
+                  }
+                  }
+                >
+                  {arrowFunc(pagination?.label)}
+                </button>
+              )
+            })
+          }
+        </div>
+      </div>
+    </section >
   )
 }
 

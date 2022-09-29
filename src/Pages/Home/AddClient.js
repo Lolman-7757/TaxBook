@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 // Components
-import { Input, Button } from "@nextui-org/react"
+import { Input, Button, Textarea } from "@nextui-org/react"
 import Swal from 'sweetalert2';
 import { TbArrowBack } from 'react-icons/tb'
 
@@ -35,9 +35,10 @@ function AddClient() {
 
     const onSubmit = (data) => {
         https
-            .post('/clients', data)
+            .post('/clients', {...data, status: "debt"})
             .then((res) => Success())
             .catch(err => Warn(err.response.status))
+            console.log(window.localStorage.getItem('token'))
     }
 
     return (
@@ -79,10 +80,39 @@ function AddClient() {
                         bordered
                         placeholder="7 Shady Court Woodhaven, NY 11421"
                         color="primary"
-                        label='Client Name '
+                        label='Address'
                         width='90%'
                         className='main_table-search'
                         {...register("address", { required: true })}
+                    />
+                    <Input
+                        rounded
+                        bordered
+                        placeholder="1000000"
+                        color="primary"
+                        label='Debt Ammount'
+                        width='90%'
+                        className='main_table-search'
+                        {...register("price", { required: true })}
+                    />
+                    <Input
+                        rounded
+                        bordered
+                        placeholder="1 pepsi"
+                        color="primary"
+                        label='Products in Dept'
+                        width='90%'
+                        className='main_table-search'
+                        {...register("info", { required: true })}
+                    />
+                    <Textarea
+                        rounded
+                        bordered
+                        label="Comment to a dept"
+                        placeholder="Dept was taken by the oldest person in family"
+                        color="primary"
+                        width='80%'
+                        {...register("comment", { required: true })}
                     />
                     <div className='buttons_block'>
                         <Button type='submit' color="primary" auto shadow size='xl'>
