@@ -9,11 +9,11 @@ import { BiExit } from 'react-icons/bi'
 // Pages
 import Logo from '../../Assets/imgs/Logo'
 import Home from '../Home/Home';
-import User from '../User/User'
 import History from '../History/History'
 import Login from '../Login/Login';
 import AddClient from '../Home/AddClient';
 import SingleClient from '../Home/SingleClient';
+import https from '../../Assets/https';
 
 // Antd Tabs
 
@@ -35,6 +35,13 @@ function Main() {
     useEffect(() => {
     }, [])
 
+    const deleteToken = () => {
+        setToken(window.localStorage.removeItem('token'))
+        https
+        .post('/logout')
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
 
     if (token) {
         return (
@@ -57,7 +64,7 @@ function Main() {
                             <Link to='/profile'>
                                 <FaRegUserCircle />
                             </Link>
-                            <div className='profile_dropdown' onClick={() => { setToken(window.localStorage.removeItem('token')) }}>
+                            <div className='profile_dropdown' onClick={() => { deleteToken() }}>
                                     <BiExit />
                                     <p>Log Out</p>
                             </div>
@@ -70,7 +77,6 @@ function Main() {
                             <Route path='/addclient' element={<AddClient />} />
                             <Route path='/client/:id' element={<SingleClient />} />
                             <Route path='/history' element={<History />} />
-                            <Route path='/profile' element={<User />} />
                         </Routes>
                     </main>
                 </BrowserRouter>

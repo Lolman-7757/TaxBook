@@ -50,7 +50,7 @@ function Home() {
         .catch(err => Warn(err.response.status))
     } else {
       https
-        .get(`/clients?search=${searchValue}&limit=5&page=${pageNum}`)
+        .get(`/clients?search=${searchValue}&limit=10&page=${pageNum}`)
         .then(res => {
           setData(res.data.data);
           setErrText("NO CLIENTS REGISTERED!");
