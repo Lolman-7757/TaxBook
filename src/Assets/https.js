@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const https = axios.create({
-    baseURL: "http://iztileuoff.beget.tech/api",
+    baseURL: "http://bektemir.beget.tech/api",
     withCredentials: true,
     headers: {
         'Accept': 'application/json',
