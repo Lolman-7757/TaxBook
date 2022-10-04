@@ -43,7 +43,7 @@ function Login() {
         if (isRotated) {
             delete data.name
         }
-        axios.get('http://iztileuoff.beget.tech/sanctum/csrf-cookie', { withCredentials: true })
+        axios.get('http://bektemir.beget.tech/sanctum/csrf-cookie', { withCredentials: true })
             .then(response => {
                 https.post(`${isRotated ? '/login' : '/register'}`, data)
                     .then(res => {
