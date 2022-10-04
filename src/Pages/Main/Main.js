@@ -13,6 +13,7 @@ import History from '../History/History'
 import Login from '../Login/Login';
 import AddClient from '../Home/AddClient';
 import SingleClient from '../Home/SingleClient';
+// API
 import https from '../../Assets/https';
 
 // Antd Tabs
@@ -61,9 +62,7 @@ function Main() {
                             }
                         </Tabs>
                         <div className='main_profile'>
-                            <Link to='/profile'>
                                 <FaRegUserCircle />
-                            </Link>
                             <div className='profile_dropdown' onClick={() => { deleteToken() }}>
                                     <BiExit />
                                     <p>Log Out</p>
